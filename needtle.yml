@@ -1,0 +1,65 @@
+openapi: '3.0.2'
+info:
+  title: Needtle API
+  description: Backend API untuk mobile app Needtle
+  version: '1.0'
+servers:
+  - url: https://174r9olzy7.execute-api.us-east-1.amazonaws.com/v1
+paths:
+  /feeds:
+    get:
+      summary: Get user feeds including tracking, current, upcoming, and other.
+      parameters:
+        - name: userId
+          description: The ID of the user. Dapat dari saat login
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: limit
+          description: Untuk current, upcoming, sama other, maksimal fetch berapa.
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: fields
+          description: The ID of the user. Dapat dari saat login
+          in: query
+          required: true
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - current
+                - upcoming
+                - other
+                - tracking
+        - name: fcmToken
+          description: FCM Token untuk notifikasi, diupdate setiap user ke home.
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Successful
+
+  /activities:
+    post:
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: OK
+security: 
+  - JWT Access Token: []
+components:
+  securitySchemes:
+    JWT Access Token:
+      description: JWT Access Token
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      
